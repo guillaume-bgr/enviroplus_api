@@ -33,7 +33,7 @@ Press Ctrl+C to exit!
 bme280 = BME280()
 
 # PMS5003 particulate sensor
-pms5003 = PMS5003()
+# pms5003 = PMS5003()
 
 # Create ST7735 LCD display class
 st7735 = ST7735.ST7735(
