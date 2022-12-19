@@ -4,6 +4,7 @@ import time
 import colorsys
 import sys
 import ST7735
+import math
 try:
     # Transitional fix for breaking change in LTR559
     from ltr559 import LTR559
@@ -87,6 +88,7 @@ def display_text(variable, data, unit):
     # Write the text at the top in black
     draw.text((0, 0), message, font=font, fill=(0, 0, 0))
     st7735.display(img)
+    
 
 
 # Get the temperature of the CPU for compensation
@@ -127,7 +129,7 @@ for v in variables:
 
 # The main loop
 try:
-    while True:
+    #while True:
         proximity = ltr559.get_proximity()
 
         # If the proximity crosses the threshold, toggle the mode
@@ -139,56 +141,64 @@ try:
         # One mode for each variable
         if mode == 0:
             # variable = "temperature"
-            unit = "C"
+            unit_temp = "C"
             cpu_temp = get_cpu_temperature()
             # Smooth out with some averaging to decrease jitter
             cpu_temps = cpu_temps[1:] + [cpu_temp]
             avg_cpu_temp = sum(cpu_temps) / float(len(cpu_temps))
             raw_temp = bme280.get_temperature()
-            data = raw_temp - ((avg_cpu_temp - raw_temp) / factor)
-            display_text(variables[mode], data, unit)
+            data_temp = raw_temp - ((avg_cpu_temp - raw_temp) / factor)
+            display_text("temperature", data_temp, unit_temp)
 
-        if mode == 1:
             # variable = "pressure"
-            unit = "hPa"
-            data = bme280.get_pressure()
-            display_text(variables[mode], data, unit)
+            unit_pres = "hPa"
+            data_pres = bme280.get_pressure()
+            display_text("pressure", data_pres, unit_pres)
 
-        if mode == 2:
             # variable = "humidity"
-            unit = "%"
-            data = bme280.get_humidity()
-            display_text(variables[mode], data, unit)
+            unit_hum = "%"
+            data_hum = bme280.get_humidity()
+            display_text("humidity", data_hum, unit_hum)
 
-        if mode == 3:
             # variable = "light"
-            unit = "Lux"
+            unit_light = "Lux"
             if proximity < 10:
-                data = ltr559.get_lux()
+                data_light = ltr559.get_lux()
             else:
-                data = 1
-            display_text(variables[mode], data, unit)
+                data_light = 1
+            display_text("light", data_light, unit_light)
 
-        if mode == 4:
             # variable = "oxidised"
-            unit = "kO"
-            data = gas.read_all()
-            data = data.oxidising / 1000
-            display_text(variables[mode], data, unit)
+            unit_oxi = "ppm"
+            unit_oxi_Ohms = "kO"
+            ox_r0 = 20000
+            data_oxi = gas.read_all()
+            data_oxi = data_oxi.oxidising / 1000
+            oxi_in_ppm = math.pow(10, math.log10(data_oxi/ox_r0) - 0.8129)
+            display_text("oxidised", oxi_in_ppm, unit_oxi)
+            display_text("oxidised", data_oxi, unit_oxi_Ohms)
 
-        if mode == 5:
             # variable = "reduced"
-            unit = "kO"
-            data = gas.read_all()
-            data = data.reducing / 1000
-            display_text(variables[mode], data, unit)
+            unit_red = "ppm"
+            unit_red_Ohms = "kO"
+            data_red = gas.read_all()
+            red_r0 = 200000
+            data_red = data_red.reducing / 1000
+            red_in_ppm = math.pow(10, -1.25 * math.log10(data_red/red_r0) + 0.64)
+            display_text("reduced", red_in_ppm, unit_red)
+            display_text("reduced", data_red, unit_red_Ohms)
 
-        if mode == 6:
             # variable = "nh3"
-            unit = "kO"
-            data = gas.read_all()
-            data = data.nh3 / 1000
-            display_text(variables[mode], data, unit)
+            unit_nh3 = "ppm"
+            unit_nh3_Ohms = "kO"
+            data_nh3 = gas.read_all()
+            nh3_r0 = 750000
+            data_nh3 = data_nh3.nh3 / 1000
+            nh3_in_ppm = math.pow(10, -1.8 * math.log10(data_nh3/nh3_r0) - 0.163)
+            display_text("nh3", nh3_in_ppm, unit_nh3)
+            display_text("nh3", data_nh3, unit_nh3_Ohms)
+            
+            datas = dict(temperature = data_temp, pressure = data_pres, humidity = data_hum, light = data_light, oxidised = data_oxi, reduced = data_red, nh3 = data_nh3)
 
         if mode == 7:
             # variable = "pm1"
@@ -222,6 +232,7 @@ try:
             else:
                 data = float(data.pm_ug_per_m3(10))
                 display_text(variables[mode], data, unit)
+
 
 # Exit cleanly
 except KeyboardInterrupt:
