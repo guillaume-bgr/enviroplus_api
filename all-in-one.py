@@ -169,34 +169,23 @@ try:
             display_text("light", data_light, unit_light)
 
             # variable = "oxidised"
-            unit_oxi = "ppm"
-            unit_oxi_Ohms = "kO"
-            ox_r0 = 20000
+            unit_oxi = "kO"
             data_oxi = gas.read_all()
             data_oxi = data_oxi.oxidising / 1000
-            oxi_in_ppm = math.pow(10, math.log10(data_oxi/ox_r0) - 0.8129)
-            display_text("oxidised", oxi_in_ppm, unit_oxi)
-            display_text("oxidised", data_oxi, unit_oxi_Ohms)
+            display_text("oxidised", data_oxi, unit_oxi)
 
             # variable = "reduced"
-            unit_red = "ppm"
-            unit_red_Ohms = "kO"
+            unit_red = "kO"
             data_red = gas.read_all()
-            red_r0 = 200000
             data_red = data_red.reducing / 1000
-            red_in_ppm = math.pow(10, -1.25 * math.log10(data_red/red_r0) + 0.64)
-            display_text("reduced", red_in_ppm, unit_red)
-            display_text("reduced", data_red, unit_red_Ohms)
+            display_text("reduced", data_red, unit_red)
 
             # variable = "nh3"
-            unit_nh3 = "ppm"
-            unit_nh3_Ohms = "kO"
+            unit_nh3 = "kO"
             data_nh3 = gas.read_all()
             nh3_r0 = 750000
             data_nh3 = data_nh3.nh3 / 1000
-            nh3_in_ppm = math.pow(10, -1.8 * math.log10(data_nh3/nh3_r0) - 0.163)
-            display_text("nh3", nh3_in_ppm, unit_nh3)
-            display_text("nh3", data_nh3, unit_nh3_Ohms)
+            display_text("nh3", data_nh3, unit_nh3)
             
             datas = dict(temperature = data_temp, pressure = data_pres, humidity = data_hum, light = data_light, oxidised = data_oxi, reduced = data_red, nh3 = data_nh3)
 
