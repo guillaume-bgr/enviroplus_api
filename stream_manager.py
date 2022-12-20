@@ -1,7 +1,7 @@
 from typing import Union
 import redis
 r = redis.Redis()
-print(r.ping())
+print()
 
 class StreamManager :
 
