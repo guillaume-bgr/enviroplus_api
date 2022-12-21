@@ -5,15 +5,15 @@ import time
 # Initialisation stream
 stream = StreamManager()
 
-def main_process():
+def get_sensor_data():
     print("Adding data to the stream..")
+    data = aio.get_stream_data()
+    stream.append_stream('rasp_output', data)
+    stream.get_stream('rasp_output', '-', '+', 1)
     # Get sensor data
-    # datas = aio.get_stream_data()
-    # stream.get_stream('rasp_output', '-', '+', 10)
-    stream.trim_stream('rasp_output', 0.2)
+    # stream.trim_stream('rasp_output', 0.2)
     
-    # stream.append_stream('rasp_output', datas)
 
 while True:
-    main_process()
-    time.sleep(5)
+    get_sensor_data()
+    time.sleep(180)
