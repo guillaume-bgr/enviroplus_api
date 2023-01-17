@@ -14,7 +14,7 @@ class Gas :
         return raw_red_rs, raw_oxi_rs, raw_nh3_rs
     
     def read_gas_in_ppm(self):
-        # Set up startup gas sensors' R0 with no compensation (Compensation will be set up after warm up time)
+        print("Start collecting Gas datas")
         reds=[]
         oxis = []
         nh3s=[]
@@ -58,8 +58,7 @@ class Gas :
                 averageReds = sumOfListReds/len(reds)
                 averageOxis = sumOfListOxis/len(oxis)
                 averageNh3s = sumOfListNh3s/len(nh3s)
-                
-                
-        return averageReds,averageOxis,averageNh3s
+                print("End collecting Gas datas")
+                return averageReds,averageOxis,averageNh3s
 
         

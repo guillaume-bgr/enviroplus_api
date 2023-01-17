@@ -15,6 +15,7 @@ class NoiseClass():
         mids=[]
         highs=[]
         amps=[]
+        print("Start collecting Noise datas")
         for i in range(0,6):
             low, mid, high, amp = self.noise.get_noise_profile()
             time.sleep(1.0)
@@ -40,6 +41,6 @@ class NoiseClass():
                 for i in range(len(amps)):
                     sumOfList2 += amps[i]
                     averageAmps2 = sumOfList2/len(amps)
-
+                print("End collecting noise data")
                 return averageAmps0, averageAmps1,averageAmps2
 

@@ -11,6 +11,7 @@ class Particules:
         self.pms5003 = PMS5003()
         time.sleep(1.0)
     def mainParticules(self):
+        print ("Start Collecting Particules datas")
         if self.pms5003:
              sumOfList1 = 0
              sumOfList2 = 0
@@ -40,6 +41,7 @@ class Particules:
                         for i in range(len(particules3)):
                             sumOfList3 += particules3[i]
                         average3 = sumOfList3/len(particules3)
+                        print ("End Collecting Particules datas")
                         return average1, average2, average3
                 except ReadTimeoutError:
                     self.mainParticules()

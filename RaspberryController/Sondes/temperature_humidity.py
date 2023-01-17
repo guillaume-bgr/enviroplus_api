@@ -54,10 +54,10 @@ class TemperatureHumidity():
         temperatures=[]
         factor = 2.25
         sumOfList = 0
+        print ("Start Collecting temperature datas")
         for i in range(0,6):
             cpu_temps = [self.get_cpu_temperature()] * 5
             cpu_temp = self.get_cpu_temperature()
-            # Smooth out with some averaging to decrease jitter
             cpu_temps = cpu_temps[1:] + [cpu_temp]
             avg_cpu_temp = sum(cpu_temps) / float(len(cpu_temps))
             raw_temp = self.bme280.get_temperature()
@@ -69,4 +69,5 @@ class TemperatureHumidity():
                 for i in range(len(temperatures)):
                     sumOfList += temperatures[i]
                 average = sumOfList/len(temperatures)
+                print ("End Collecting temperature datas")
                 return average

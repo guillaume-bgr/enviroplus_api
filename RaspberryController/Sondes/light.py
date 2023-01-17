@@ -1,7 +1,6 @@
 import time
 import logging
 try:
-    # Transitional fix for breaking change in LTR559
     from ltr559 import LTR559
     ltr559 = LTR559()
 except ImportError:
@@ -15,6 +14,7 @@ class Light():
             datefmt='%Y-%m-%d %H:%M:%S')
 
     def mainLight(self):
+        print("Start collecting light datas")
         lights=[]
         proxs=[]
         sumOfListLights=0
@@ -33,4 +33,5 @@ class Light():
                 for i in range(len(lights)):
                     sumOfListRange += proxs[i]
                     averageProxs = sumOfListRange/len(proxs)
+                print("End collecting light datas")
                 return averageLights, averageProxs
