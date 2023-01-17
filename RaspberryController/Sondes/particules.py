@@ -13,14 +13,14 @@ class Particules:
     def mainParticules(self):
         print ("Start Collecting Particules datas")
         if self.pms5003:
-             sumOfList1 = 0
-             sumOfList2 = 0
-             sumOfList3 = 0
-             particules1=[]
-             particules2=[]
-             particules3=[]
+            sumOfList1 = 0
+            sumOfList2 = 0
+            sumOfList3 = 0
+            particules1=[]
+            particules2=[]
+            particules3=[]
             
-             for i in range(0,6):
+            for i in range(0,6):
                 try:
                     readings = self.pms5003.read()
                     part1 = readings.pm_ug_per_m3(2.5)
@@ -28,9 +28,9 @@ class Particules:
                     part3 = readings.pm_ug_per_m3(1.0)
                     time.sleep(1.0)
                     if i > 1:
-                         particules1.append(part1)
-                         particules2.append(part2)
-                         particules3.append(part3)
+                        particules1.append(part1)
+                        particules2.append(part2)
+                        particules3.append(part3)
                     if i == 5:
                         for i in range(len(particules1)):
                             sumOfList1 += particules1[i]
