@@ -1,11 +1,11 @@
 import time
 
-from Sondes.temperature_humidity import TemperatureHumidity
-from Sondes.gas import Gas
-from Sondes.particules import Particules
-from Sondes.light import Light
-from Sondes.noise import NoiseClass
-from Display.display import LCD
+from RaspberryController.Sondes.temperature_humidity import TemperatureHumidity
+from RaspberryController.Sondes.gas import Gas
+from RaspberryController.Sondes.particules import Particules
+from RaspberryController.Sondes.light import Light
+from RaspberryController.Sondes.noise import NoiseClass
+from RaspberryController.Display.display import LCD
 
 class Raspberry():
    def __init__(self):
@@ -16,7 +16,7 @@ class Raspberry():
       self.noise = NoiseClass()
       self.lcd = LCD()
       
-   def displayData(self, text, fontSize=15, backgroudColor =(255,255,255), fontColor=(0,0,0), displayTime=10):
+   def displayData(self, text, fontSize=15, backgroudColor = (255,255,255), fontColor = (0,0,0), displayTime = 10):
             if text:
                self.lcd.displayText(fontSize,fontColor, backgroudColor, text)
             else:
@@ -46,8 +46,6 @@ class Raspberry():
       text = self.constructTextData(datas)
       self.displayData(text)
       return datas
-main = Main()
-datas =main.mainLoop()
 
 
       
