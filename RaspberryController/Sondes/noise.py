@@ -6,7 +6,6 @@ import time
 class NoiseClass():
     def __init__(self):
         self.noise = Noise()
-    
     def mainNoise(self):
         sumOfList0 = 0
         sumOfList1 = 0
